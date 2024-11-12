@@ -1,5 +1,35 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+
+<html lang="no">
+<head>
+    <title>Til lands</title>
+</head>
+<body>
+
+
+    <div class="breadcrumb">
+        <a href="/" class="back-link">Kartverket</a> <p class="pil">← </p><p class="breadcrumbs-list-item"> Rett i kartet</p>
+    </div>
+
+    <div class="til-lands-header">
+        <h1>Rett i kartet</h1>
+        <p>Kartverkets data er sentrale i Norges offisielle datagrunnlag og<br> brukes i en lang rekke kart på papir og nett. Her kan du hjelpe oss med å holde kartene oppdatert.</p>
+    </div>
+
+
+    <div class="til-lands-menus">
+        <div class="menu-box">
+            <a asp-action="TourMap" class="btn-kartretting">
+                <h2>Rett i turkart</h2>
+                <p>Har du vært på tur og oppdaget noe som bør rettes eller oppdateres i kartet? Er det et stedsnavn som er feilplassert i kartet, som mangler eller som er skrevet feil?</p>
+            </a>
+        </div>
+        <div class="menu-box">
+            <a asp-action="RoadMap" class="btn-kartretting">
+                <h2>Rett i veger, adresser og stedsnavn</h2>
+                <p>Finner du ikke fram til en adresse? Sender GPS-en deg på ville veger? Sjekk om kartet og GPS-en er oppdatert og meld fra til oss hvis det er våre kart som er feil.</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

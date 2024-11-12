@@ -8,5 +8,10 @@ namespace KartverketGroup20.Controllers
         {
             return View();
         }
+
+        public IActionResult RoadMap()
+        {
+            return View();
+        }
     }
 }
