@@ -20,28 +20,13 @@ namespace KartverketGroup20.Controllers
         {
             return View();
         }
-        //[HttpPost]
-        //public IActionResult RoadMap(ReportViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        positions.Add(model);
-        //        return View("CorrectionOverview", positions);
-        //    }
-        //    return View();
-        //}
-        //[HttpGet]
-        //public IActionResult RegisterReport()
-        //{
-        //    return View();
-        //}
-
-
+        
         [HttpPost]
         public IActionResult RoadMap(string geoJson, string description)
         {
             var newChange = new ReportViewModel
             {
+
                 Id = Guid.NewGuid().ToString(),
                 GeoJson = geoJson,
                 Description = description
@@ -50,13 +35,26 @@ namespace KartverketGroup20.Controllers
 
             return RedirectToAction("CorrectionOverview");        
         }
-
         [HttpGet]
-        public IActionResult CorrectionOverview()
+        public IActionResult TourMap()
         {
-            return View(changes);
+            return View();
         }
-    }
+        
+        [HttpPost]
+        public IActionResult TourMap(string geoJson, string description)
+        {
+            var newChange = new ReportViewModel
+            {
 
+                Id = Guid.NewGuid().ToString(),
+                GeoJson = geoJson,
+                Description = description
+            };
+            changes.Add(newChange);
+
+            return RedirectToAction("CorrectionOverviewTourMap");        
+        }
+        
   
 }
