@@ -6,7 +6,7 @@ namespace KartverketGroup20.Controllers
 {
     public class LandMapController : Controller
     {
-        private static List<ReportViewModel> positions = new List<ReportViewModel>();
+        //private static List<ReportViewModel> positions = new List<ReportViewModel>();
 
         private static List<ReportViewModel> changes = new List<ReportViewModel>();
    
@@ -20,44 +20,41 @@ namespace KartverketGroup20.Controllers
         {
             return View();
         }
+        
         [HttpPost]
-        public IActionResult RoadMap(ReportViewModel model)
+        public IActionResult RoadMap(string geoJson, string description)
         {
-            if (ModelState.IsValid)
+            var newChange = new ReportViewModel
             {
-                changes.Add(model);
-                return View("CorrectionOverview", changes);
-            }
-            return View();
+
+                Id = Guid.NewGuid().ToString(),
+                GeoJson = geoJson,
+                Description = description
+            };
+            changes.Add(newChange);
+
+            return RedirectToAction("CorrectionOverview");        
         }
         [HttpGet]
         public IActionResult TourMap()
         {
             return View();
         }
+        
         [HttpPost]
-        public IActionResult TourMap(ReportViewModel model)
+        public IActionResult TourMap(string geoJson, string description)
         {
-            if (ModelState.IsValid)
+            var newChange = new ReportViewModel
             {
-                changes.Add(model);
-                return View("CorrectionOverviewTourMap", changes);
-            }
-            return View();
+
+                Id = Guid.NewGuid().ToString(),
+                GeoJson = geoJson,
+                Description = description
+            };
+            changes.Add(newChange);
+
+            return RedirectToAction("CorrectionOverviewTourMap");        
         }
-        //[HttpGet]
-        ////public IActionResult CorrectionOverview(string GeoJson, string description)
-        //{
-        //    var newChange = new ReportViewModel
-        //    {
-        //        //Id = Guid.NewGuid().ToString(),
-        //        //GeoJson = geoJson,
-        //        Description = description
-        //    };
-        //    changes.Add(newChange);
-
-        //}
-    }
-
+        
   
 }

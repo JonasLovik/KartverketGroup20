@@ -1,43 +1,60 @@
 ﻿@model List<KartverketGroup20.ViewModels.ReportViewModel>
 
-<h2>Registered Corrections</h2>
-
-<div>
-    @foreach (var position in Model)
-
-    {
-        <p><strong>Latitude:</strong>@position.Id</p>
-        <p><strong>Longitude:</strong>@position.GeoJson</p>
-        <p><strong>Description:</strong>@position.Description</p>
+    @{
+        ViewData["Title"] = "Overview";
     }
-</div>
-<div id="map" style="height: 500px;"></div>
+
+<h2>Overview of Registered Corrections</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>GeoJson</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var change in Model)
+        {
+            <tr>
+                <td>@change.Id</td>
+                <td>@change.GeoJson</td>
+                <td>@change.Description</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="map" style="height: 400px;"></div>
 
 @section Scripts {
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
     <script>
-        var map = L.map('map').setView([0, 0], 2);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        // Initialize the map and set its initial view
+        var map = L.map('map').setView([51.505, -0.09], 13);  // Adjust the coordinates and zoom level as needed
+
+        // Add a tile layer (using OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
         }).addTo(map);
 
-        var positions = @Json.Serialize(Model);
+        // Iterate over the registered changes and add them to the map
+        // var changes = @Html.Raw(Json.Serialize(Model));
+        var changes = @Json.Serialize(Model);
 
-        positions.forEach(function (position) {
-            var marker = L.marker([position.latitude, position.longitude]).addTo(map);
+        changes.forEach(function (change) {
+            // Parse the GeoJSON data and add it to the map
+            var geoJsonData = JSON.parse(change.geoJson);
+            L.geoJSON(geoJsonData).addTo(map);
 
-            // To show the address in the popup
-            var url = https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.latitude}&lon=${position.longitude};
-
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        var address = data.display_name ? data.display_name : "Address not found";
-                        marker.bindPopup(${ position.description } < br > Address: ${ address }).openPopup();
-                    })
-                    .catch(error => {
-                        marker.bindPopup(${ position.description } < br > Address: Not available).openPopup();
-                    });
+            // Optionally, bind a popup with the change description
+            var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
+            layer.addTo(map);
         });
     </script>
 }
