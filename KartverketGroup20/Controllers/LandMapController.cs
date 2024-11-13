@@ -1,6 +1,5 @@
 ﻿using KartverketGroup20.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography.X509Certificates;
 
 namespace KartverketGroup20.Controllers
 {
