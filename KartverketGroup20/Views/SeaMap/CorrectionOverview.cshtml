@@ -38,11 +38,11 @@
 
     <script>
         // Initialize the map and set its initial view
-        var map = L.map('map').setView([51.505, -0.09], 13);  // Adjust the coordinates and zoom level as needed
+        var map = L.map('map').setView([0, 0], 2);  // Adjust the coordinates and zoom level as needed
 
         // Add a tile layer (using OpenStreetMap)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
+        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/sjokartraster/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Map data &copy; <a href="http://www.kartverket.no/">Kartverket</a>'
         }).addTo(map);
 
         // Iterate over the registered changes and add them to the map

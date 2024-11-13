@@ -2,6 +2,6 @@
 {
     public interface IKommuneInfoService
     {
-        Task<KommuneInfo> GetKommuneInfoAsync(string kommuneNr);
+       // Task<KommuneInfo> GetKommuneInfoAsync(string kommuneNr);
     }
 }

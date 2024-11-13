@@ -20,22 +20,6 @@ namespace KartverketGroup20.Controllers
         {
             return View();
         }
-        //[HttpPost]
-        //public IActionResult RoadMap(ReportViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        positions.Add(model);
-        //        return View("CorrectionOverview", positions);
-        //    }
-        //    return View();
-        //}
-        //[HttpGet]
-        //public IActionResult RegisterReport()
-        //{
-        //    return View();
-        //}
-
 
         [HttpPost]
         public IActionResult SeaMap(string geoJson, string description)
@@ -48,7 +32,7 @@ namespace KartverketGroup20.Controllers
             };
             changes.Add(newChange);
 
-            return RedirectToAction("CorrectionOverview");
+            return View("CorrectionOverview", changes);
         }
 
         [HttpGet]

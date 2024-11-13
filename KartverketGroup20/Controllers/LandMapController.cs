@@ -9,7 +9,7 @@ namespace KartverketGroup20.Controllers
         //private static List<ReportViewModel> positions = new List<ReportViewModel>();
 
         private static List<ReportViewModel> changes = new List<ReportViewModel>();
-   
+
         public IActionResult Index()
         {
             return View();
@@ -20,7 +20,7 @@ namespace KartverketGroup20.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult RoadMap(string geoJson, string description)
         {
@@ -33,14 +33,14 @@ namespace KartverketGroup20.Controllers
             };
             changes.Add(newChange);
 
-            return RedirectToAction("CorrectionOverview");        
+            return View("CorrectionOverview", changes);
         }
         [HttpGet]
         public IActionResult TourMap()
         {
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult TourMap(string geoJson, string description)
         {
@@ -53,8 +53,10 @@ namespace KartverketGroup20.Controllers
             };
             changes.Add(newChange);
 
-            return RedirectToAction("CorrectionOverviewTourMap");        
+            return View("CorrectionOverviewTourMap", changes);
         }
-        
-  
+
+
+    }
 }
+
