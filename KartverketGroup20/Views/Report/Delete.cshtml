@@ -1,4 +1,4 @@
-@model KartverketGroup20.Entities.Report
+@model KartverketGroup20.Models.Report
 
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
 <div class="container mt-4">
@@ -16,8 +16,8 @@
                             <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="MapSpecification" class="form-label">Kart Spesifikasjon</label>
-                            <select asp-for="MapSpecification" class="form-control" id="MapSpecification">
+                            <label asp-for="MapType" class="form-label">Kart Spesifikasjon</label>
+                            <select asp-for="MapType" class="form-control" id="MapSpecification">
                                 <option value="">Velg en type...</option>
                                 <option value="turkart">Turkart</option>
                                 <option value="stedsnavn">Stedsnavn</option>
@@ -25,12 +25,12 @@
                                 <option value="adresse">Adresse</option>
                                 <option value="turrute">Turrute</option>
                             </select>
-                            <span asp-validation-for="MapSpecification" class="text-danger"></span>
+                            <span asp-validation-for="MapType" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="Content" class="form-label">Beskrivelse</label>
-                            <textarea asp-for="Content" rows="5" class="form-control" placeholder="Legg ved en beskrivelse"></textarea> <!-- Riktig element: <textarea> i stedet for <input> -->
-                            <span asp-validation-for="Content" class="text-danger"></span>
+                            <label asp-for="Description" class="form-label">Beskrivelse</label>
+                            <textarea asp-for="Description" rows="5" class="form-control" placeholder="Legg ved en beskrivelse"></textarea> <!-- Riktig element: <textarea> i stedet for <input> -->
+                            <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label asp-for="Created" class="form-label">Date</label>

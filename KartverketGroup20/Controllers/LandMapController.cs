@@ -30,18 +30,18 @@ namespace KartverketGroup20.Controllers
             }
             return View();
         }
-        [HttpGet]
-        public IActionResult CorrectionOverview(string GeoJson, string description)
-        {
-            var newChange = new ReportViewModel
-            {
-                Id = Guid.NewGuid().ToString(),
-                GeoJson = geoJson,
-                Description = description
-            };
-            changes.Add(newChange);
+        //[HttpGet]
+        ////public IActionResult CorrectionOverview(string GeoJson, string description)
+        //{
+        //    var newChange = new ReportViewModel
+        //    {
+        //        //Id = Guid.NewGuid().ToString(),
+        //        //GeoJson = geoJson,
+        //        Description = description
+        //    };
+        //    changes.Add(newChange);
     
-        }
+        //}
     }
 
   

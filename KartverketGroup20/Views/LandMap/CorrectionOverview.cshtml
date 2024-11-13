@@ -6,8 +6,8 @@
     @foreach (var position in Model)
 
     {
-        <p><strong>Latitude:</strong>@position.Latitude</p>
-        <p><strong>Longitude:</strong>@position.Longitude</p>
+        <p><strong>Latitude:</strong>@position.Id</p>
+        <p><strong>Longitude:</strong>@position.GeoJson</p>
         <p><strong>Description:</strong>@position.Description</p>
     }
 </div>
