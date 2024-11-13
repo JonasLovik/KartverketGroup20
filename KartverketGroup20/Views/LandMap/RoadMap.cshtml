@@ -1,51 +1,79 @@
 @model KartverketGroup20.ViewModels.ReportViewModel
 
-<h2>Register a position</h2>
+<h2>Registrer feil i kartet</h2>
+
+<div id="map" style="height: 400px;"></div>
+<br />
+
 
 <form asp-action="RoadMap" method="post">
-    <div class="form-group">
-        <label for="latitude">Latitude</label>
-        <input type="text" id="latitude" name="Latitude" class="form-control" readonly />
-    </div>
-    <div class="form-group">
-        <label for="logitude">Latitude</label>
-        <input type="text" id="longitude" name="Longitude" class="form-control" readonly />
-    </div>
 
-    <div class="form-group">
-        <label for="description">Description</label>
+        <input type="hidden" id="geoJsonInput" name="geoJson" />
+    <div>
+        <label for="description">Change Description:</label>
         <textarea id="text" name="Description" class="form-control"></textarea>
     </div>
+    <br />
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
-<div id="map" style="height: 460px;"></div>
+
 
 @section Scripts {
+    @* Leaflet CSS *@
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    @* Leaflet Draw CSS *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    @* Leaflet JS *@
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    @* Leaflet Draw JS *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+
+
     <script>
-        var map = L.map("map").setView([51.505, -0.09], 15);
+        var map = L.map('map').setView([51.505, -0.09], 13);  // Center the map on a location
 
+        // Add a base map layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; < a href="https://www.openstreetmap.org/copyright" > OpenStreetMap</a> contributors'
-        }).addTo(map)
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
-                   
-            map.on('click', function (e) {
-                    
-                var lat = e.latlng.lat;
-                var lng = e.latlng.lng;
+        // Initialize the feature group that will hold the drawn shapes
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
 
-                       
-                document.getElementById("latitude").value = lat;
-                       
-                document.getElementById("longitude").value = lng;
+        // Creates the drawing control on the left hand side
+        // The drawing control enables drawing of markers, polygons, and polylines
+        var drawControl = new L.Control.Draw({
+            draw: {
+                polygon: false,
+                polyline: true,
+                marker: true,
+                circle: false,  // Disable circle drawing
+                rectangle: true
+            },
+            edit: {
+                featureGroup: drawnItems
+            }
+        });
+        map.addControl(drawControl);
 
+        // Event handling when a layer is drawn on the map
+        map.on(L.Draw.Event.CREATED, function (e) {
+            var type = e.layerType,
+                layer = e.layer;
 
-                      
-                L.marker([lat, lng]).addTo(map);
+            drawnItems.addLayer(layer);
 
-                  
-            });
+            // Get the GeoJSON representation of the drawn layer
+            var geoJsonData = layer.toGeoJSON();
+            var geoJsonString = JSON.stringify(geoJsonData);
+
+            // Set the GeoJSON string into the hidden input field in the form
+            document.getElementById('geoJsonInput').value = geoJsonString;
+        });
+
     </script>
 }
 
