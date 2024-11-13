@@ -32,9 +32,16 @@ namespace KartverketGroup20.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult CorrectionOverview()
+        public IActionResult CorrectionOverview(string GeoJson, string description)
         {
-            return View(positions);
+            var newChange = new ReportViewModel
+            {
+                Id = Guid.NewGuid().ToString(),
+                GeoJson = geoJson,
+                Description = description
+            };
+            changes.Add(newChange);
+    
         }
     }
 
