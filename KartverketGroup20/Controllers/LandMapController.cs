@@ -20,7 +20,6 @@ namespace KartverketGroup20.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public IActionResult RoadMap(ReportViewModel model)
         {

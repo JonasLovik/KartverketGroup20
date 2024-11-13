@@ -5,15 +5,14 @@ namespace KartverketGroup20.Models
 {
     public class Report
     {
-        [Key]
+
+        [Required]
         public int Id { get; set; }
-        [ForeignKey("AppUser")]
-        public int AppUserId { get; set; }
-        public string GeoJson { get; set; }
-        public string ReportTime { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
-        public string MapType { get; set; }
+        public string Title { get; set; } = String.Empty;
+        public string? MapSpecification { get; set; }
+        public string Content { get; set; } = String.Empty;
+        public string? GeoJson { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
+        public int UserId { get; set; }
 
     }
-}

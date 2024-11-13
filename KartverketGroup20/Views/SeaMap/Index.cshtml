@@ -1,5 +1,95 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="no">
+<head>
+    <title>Til sjøs</title>
+    <style>
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .til-sjos-header {
+            background-color: #e6f2ff;
+            padding: 20px;
+            height: 336px;
+        }
+
+        .tekst-tilsjøs-header {
+            margin-top: 90px;
+            margin-left: 20px;
+        }
+
+        .til-sjos-header h1 {
+            color: #003366;
+            font-weight: bold; /* Fet skrift */
+        }
+
+        .til-sjos-header p {
+            color: #000;
+            margin-top: 17px;
+        }
+
+        .til-sjos-menu {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            gap: 20px;
+            padding: 40px 0;
+        }
+
+        .menu-box {
+            width: 300px;
+            height: 200px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            border-radius: 10px;
+            background-color: #fff8cc;
+            transition: background-color 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn-kartretting {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .menu-box h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #003366;
+            transition: color 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .menu-box p {
+            font-size: 1em;
+            color: #003366;
+        }
+
+        .menu-box h2:hover {
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="til-sjos-header">
+        <div class="tekst-tilsjøs-header">
+            <h1><strong>Rettelser til Sjøkart</strong></h1> <!-- Fet skrift på tittelen -->
+            <p>Kartverkets sjøkart er avgjørende for trygg navigasjon til sjøs.<br> Hvis du har oppdaget endringer eller feil i sjøkartene, kan du bidra til å forbedre dem her.<br> Din tilbakemelding hjelper til med å sikre korrekte og oppdaterte sjøkart for alle.</p>
+        </div>
+    </div>
+
+    <div class="til-sjos-menu">
+        <div class="menu-box">
+            <a asp-action="SeaMap" class="btn-kartretting">
+                <h2>Meld inn feil eller endringer i sjøkart</h2>
+                <p>Har du merket endringer i kystlinjen, navigasjonsmerker, eller andre detaljer som er viktige for navigasjonen? La oss vite slik at vi kan oppdatere sjøkartene raskt og nøyaktig.</p>
+            </a>
+        </div>
+        <div class="menu-box">
+        </div>
+    </div>
+</body>
+</html>

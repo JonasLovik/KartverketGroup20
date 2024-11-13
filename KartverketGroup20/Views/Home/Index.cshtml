@@ -1,8 +1,22 @@
-﻿@{
+﻿@* @model string *@
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="nettside">
+
+    <div class="knapper">
+
+        <a asp-controller="LandMap" asp-action="Index" class="image-button-1">
+            <img src="images/til-lands-logo.jpg" alt="Knapp 1">
+        </a>
+
+        <a asp-controller="SeaMap" asp-action="Index" class="image-button-2">
+            <img src="images/til-sjøs-logo.jpg" alt="Knapp 2">
+        </a>
+
+    </div>
+
+    @* @Model *@
+
 </div>
