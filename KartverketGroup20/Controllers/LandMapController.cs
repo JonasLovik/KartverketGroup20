@@ -25,8 +25,23 @@ namespace KartverketGroup20.Controllers
         {
             if (ModelState.IsValid)
             {
-                positions.Add(model);
-                return View("CorrectionOverview", positions);
+                changes.Add(model);
+                return View("CorrectionOverview", changes);
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult TourMap()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult TourMap(ReportViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                changes.Add(model);
+                return View("CorrectionOverviewTourMap", changes);
             }
             return View();
         }
@@ -40,7 +55,7 @@ namespace KartverketGroup20.Controllers
         //        Description = description
         //    };
         //    changes.Add(newChange);
-    
+
         //}
     }
 
