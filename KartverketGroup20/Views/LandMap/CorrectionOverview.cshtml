@@ -15,12 +15,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var change in Model)
+        @foreach (var newReport in Model)
         {
             <tr>
-                <td>@change.Id</td>
-                <td>@change.GeoJson</td>
-                <td>@change.Description</td>
+                <td>@newReport.Id</td>
+                <td>@newReport.GeoJson</td>
+                <td>@newReport.Description</td>
 
             </tr>
         }
