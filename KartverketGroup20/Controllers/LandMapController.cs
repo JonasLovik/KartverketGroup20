@@ -46,7 +46,8 @@ namespace KartverketGroup20.Controllers
                 var newReport = new Report
                 {
                     GeoJson = geoJson,
-                    Description = description
+                    Description = description,
+                    ReportTime = DateTime.Now
                 };
 
                 _context.Reports.Add(newReport);
