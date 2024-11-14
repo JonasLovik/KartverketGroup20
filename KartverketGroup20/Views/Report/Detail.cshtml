@@ -1,0 +1,69 @@
+﻿@model Report
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">
+        
+        <small>Rapport nr: @Model.Id</small>
+    </h1>
+
+    <!-- Portfolio Item Row -->
+    <div class="row">
+
+        <div class="col-md-8">
+            <div id="map" style="height: 400px;"></div>
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="my-3">Kart: </h3>
+            <p>@Model.Description</p>
+            <h3 class="my-3">Rapporten ble sendt inn:</h3>
+            
+                <h5>@Model.ReportTime</h5>
+            
+        </div>
+
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+
+
+@section Scripts {
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map and set its initial view
+        var map = L.map('map').setView([0, 0], 2);  // Adjust the coordinates and zoom level as needed
+
+        // Add a tile layer (using OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Iterate over the registered changes and add them to the map
+         var changes = @Html.Raw(Json.Serialize(Model));
+        //var changes = @Json.Serialize(Model);
+
+        changes.forEach(function (change) {
+            // Parse the GeoJSON data and add it to the map
+            var geoJsonData = JSON.parse(change.geoJson);
+            L.geoJSON(geoJsonData).addTo(map);
+
+            // Optionally, bind a popup with the change description
+            var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
+            layer.addTo(map);
+        });
+    </script>
+}

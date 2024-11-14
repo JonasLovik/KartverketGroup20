@@ -1,4 +1,4 @@
-﻿@model List<KartverketGroup20.Models.Report>
+﻿@model List<Report>
 
     @{
         ViewData["Title"] = "Overview";
@@ -15,12 +15,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var newReport in Model)
+        @foreach (var report in Model)
         {
             <tr>
-                <td>@newReport.Id</td>
-                <td>@newReport.GeoJson</td>
-                <td>@newReport.Description</td>
+                <td>@report.Id</td>
+                <td>@report.GeoJson</td>
+                <td>@report.Description</td>
 
             </tr>
         }
@@ -45,15 +45,15 @@
 
         // Iterate over the registered changes and add them to the map
         // var changes = @Html.Raw(Json.Serialize(Model));
-        var changes = @Json.Serialize(Model);
+        var reports = @Json.Serialize(Model);
 
-        changes.forEach(function (change) {
+        reports.forEach(function (report) {
             // Parse the GeoJSON data and add it to the map
-            var geoJsonData = JSON.parse(change.geoJson);
+            var geoJsonData = JSON.parse(report.geoJson);
             L.geoJSON(geoJsonData).addTo(map);
 
             // Optionally, bind a popup with the change description
-            var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
+            var layer = L.geoJSON(geoJsonData).bindPopup(report.description);
             layer.addTo(map);
         });
     </script>

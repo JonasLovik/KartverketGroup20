@@ -32,11 +32,11 @@
 
 
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);  // Center the map on a location
+        var map = L.map('map').setView([64.580287, 8.142175], 7);  // Center the map on a location
 
         // Add a base map layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+            attribution: 'Map data &copy; <a href="http://www.kartverket.no/">Kartverket</a>'
         }).addTo(map);
 
         // Initialize the feature group that will hold the drawn shapes
@@ -50,7 +50,7 @@
                 polygon: false,
                 polyline: true,
                 marker: true,
-                circle: false,  // Disable circle drawing
+                circle: false, 
                 rectangle: true
             },
             edit: {

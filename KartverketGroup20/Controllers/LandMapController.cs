@@ -2,6 +2,7 @@
 using KartverketGroup20.Models;
 using KartverketGroup20.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KartverketGroup20.Controllers
 {
@@ -10,6 +11,8 @@ namespace KartverketGroup20.Controllers
         //private static List<ReportViewModel> positions = new List<ReportViewModel>();
 
         //private static List<ReportViewModel> changes = new List<ReportViewModel>();
+
+        private static List<Report> report = new List<Report>();
 
 
         private readonly ILogger<LandMapController> _logger;
@@ -43,14 +46,14 @@ namespace KartverketGroup20.Controllers
                     return BadRequest("Invalid Data");
                 }
 
-                var newReport = new Report
+                var report = new Report
                 {
                     GeoJson = geoJson,
                     Description = description,
                     ReportTime = DateTime.Now
                 };
 
-                _context.Reports.Add(newReport);
+                _context.Reports.Add(report);
                 _context.SaveChanges();
 
                 return View("CorrectionOverview");
@@ -65,8 +68,8 @@ namespace KartverketGroup20.Controllers
         [HttpGet]
         public IActionResult CorrectionOverview()
         {
-            var changes_db = _context.Reports.ToList();
-            return View(changes_db);
+            List<Report> report= _context.Reports.ToList();
+            return View(report);
         }
         [HttpGet]
         public IActionResult TourMap()
