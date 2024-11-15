@@ -4,7 +4,7 @@
 }
 <h2>Oversikt over registrerte endringer</h2>
 
-<table class="table">
+@* <table class="table">
     <thead>
         <tr>
             <th>ID</th>
@@ -22,7 +22,7 @@
             </tr>
         }
     </tbody>
-</table>
+</table> *@
 
 
 <!-- Map container with defined height -->
@@ -46,12 +46,15 @@
         }).addTo(map);
 
         // Iterate over the registered changes and add them to the map
-        // var changes = @Html.Raw(Json.Serialize(Model));
+        //var changes = @Html.Raw(Json.Serialize(Model));
         var changes = @Json.Serialize(Model);
+        var geoJsonLayers = [];
 
         changes.forEach(function (change) {
             // Parse the GeoJSON data and add it to the map
             var geoJsonData = JSON.parse(change.geoJson);
+            //var layer = L.geoJSON(geoJsonData).addTo(map);
+            //geoJsonLayers.push(layer);
             L.geoJSON(geoJsonData).addTo(map);
 
             // Optionally, bind a popup with the change description

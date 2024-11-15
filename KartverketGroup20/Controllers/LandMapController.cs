@@ -77,22 +77,40 @@ namespace KartverketGroup20.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult TourMap(string geoJson, string description)
-        //{
-        //    var newChange = new ReportViewModel
-        //    {
+        [HttpPost]
+        public IActionResult TourMap(string geoJson, string description)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(geoJson) || string.IsNullOrEmpty(description))
+                {
+                    return BadRequest("Invalid Data");
+                }
 
-        //        Id = Guid.NewGuid().ToString(),
-        //        GeoJson = geoJson,
-        //        Description = description
-        //    };
-        //    changes.Add(newChange);
+                var report = new Report
+                {
+                    GeoJson = geoJson,
+                    Description = description,
+                    ReportTime = DateTime.Now
+                };
 
-        //    return View("CorrectionOverviewTourMap", changes);
-        //}
+                _context.Reports.Add(report);
+                _context.SaveChanges();
 
-
+                return View("CorrectionOverviewTourMap");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}, Inner Exeption: {ex.InnerException?.Message}");
+                throw;
+            }
+        }
+        public IActionResult CorrectionOverviewRoadMap()
+        {
+            List<Report> report = _context.Reports.ToList();
+            return View(report);
+        }
     }
 }
+
 
