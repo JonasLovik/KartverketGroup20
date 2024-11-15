@@ -1,5 +1,7 @@
 ﻿using KartverketGroup20.Data;
 using KartverketGroup20.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
@@ -16,10 +18,18 @@ namespace KartverketGroup20.Controllers
 
         private readonly AppDbContext _context;
 
-        public SeaMapController(ILogger<SeaMapController> logger, AppDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+
+        private readonly SignInManager<IdentityUser> _signInManager;
+
+        public SeaMapController(ILogger<SeaMapController> logger, AppDbContext context, 
+                                UserManager<IdentityUser> userManager)
+
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
+
         }
 
         public IActionResult Index()
@@ -33,8 +43,9 @@ namespace KartverketGroup20.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
-        public IActionResult SeaMap(string geoJson, string description)
+        public async Task<IActionResult> SeaMap(string geoJson, string description)
         {
             try
             {
@@ -43,7 +54,10 @@ namespace KartverketGroup20.Controllers
                     return BadRequest("Invalid Data");
                 }
 
+                var user = await _userManager.GetUserAsync(User);
+                var userId = user.Id;
                 var report = new Report
+                
                 {
                     GeoJson = geoJson,
                     Description = description,

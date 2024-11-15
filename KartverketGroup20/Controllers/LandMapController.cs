@@ -1,6 +1,8 @@
 ﻿using KartverketGroup20.Data;
 using KartverketGroup20.Models;
 using KartverketGroup20.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,10 +21,18 @@ namespace KartverketGroup20.Controllers
 
         private readonly AppDbContext _context;
 
-        public LandMapController(ILogger<LandMapController> logger, AppDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+
+
+
+
+        public LandMapController(ILogger<LandMapController> logger, AppDbContext context, 
+                                 UserManager<IdentityUser> userManager)
+                                
         {
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -36,8 +46,9 @@ namespace KartverketGroup20.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
-        public IActionResult RoadMap(string geoJson, string description)
+        public async Task<IActionResult> RoadMap(string geoJson, string description)
         {
             try
             {
@@ -46,6 +57,8 @@ namespace KartverketGroup20.Controllers
                     return BadRequest("Invalid Data");
                 }
 
+                var user = await _userManager.GetUserAsync(User);
+                var userId = user.Id;
                 var report = new Report
                 {
                     GeoJson = geoJson,
@@ -66,7 +79,7 @@ namespace KartverketGroup20.Controllers
         }
 
         [HttpGet]
-        public IActionResult CorrectionOverview()
+        public IActionResult CorrectionOverviewRoadMap()
         {
             List<Report> report= _context.Reports.ToList();
             return View(report);
@@ -76,9 +89,9 @@ namespace KartverketGroup20.Controllers
         {
             return View();
         }
-
+        [Authorize]
         [HttpPost]
-        public IActionResult TourMap(string geoJson, string description)
+        public async Task<IActionResult> TourMap(string geoJson, string description)
         {
             try
             {
@@ -87,6 +100,8 @@ namespace KartverketGroup20.Controllers
                     return BadRequest("Invalid Data");
                 }
 
+                var user = await _userManager.GetUserAsync(User);
+                var userId = user.Id;
                 var report = new Report
                 {
                     GeoJson = geoJson,
@@ -105,7 +120,9 @@ namespace KartverketGroup20.Controllers
                 throw;
             }
         }
-        public IActionResult CorrectionOverviewRoadMap()
+
+        [HttpGet]
+        public IActionResult CorrectionOverviewTourMap()
         {
             List<Report> report = _context.Reports.ToList();
             return View(report);
