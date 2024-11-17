@@ -83,7 +83,7 @@ namespace KartverketGroup20.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Home");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
 

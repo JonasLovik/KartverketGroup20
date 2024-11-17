@@ -17,7 +17,6 @@ namespace KartverketGroup20.Controllers
 
         private static List<Report> report = new List<Report>();
 
-
         private readonly ILogger<LandMapController> _logger;
 
         private readonly AppDbContext _context;
@@ -64,6 +63,7 @@ namespace KartverketGroup20.Controllers
                 var userId = user.Id;
                 var report = new Report
                 {
+                    UserId = userId,
                     GeoJson = geoJson,
                     Description = description,
                     ReportTime = DateTime.Now
