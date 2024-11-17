@@ -46,7 +46,25 @@
 
                                 <li><a asp-controller="LandMap" class="menyer-sidebar">Til lands</a></li>
                                 <li><a asp-controller="SeaMap" class="menyer-sidebar">Til sjøs</a></li>
-                                <!----<li><a asp-controller="Account" asp-action="Login" class="menyer-sidebar">Login</a></li>-->
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <form asp-action="Logout" asp-controller="Account" method="post" class="form-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0;">Logout</button>
+                                        </form>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                                    </li>
+                                }
+                                @* <li><a asp-controller="Account" asp-action="Login" class="menyer-sidebar">Login</a></li> *@
                                 @* @await Html.PartialAsync("_LoginPartial") *@
                                 <div>
                                 </div>
@@ -75,6 +93,11 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-
         20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="~/lib/leaflet/leaflet.js"></script>
+
+    @if (IsSectionDefined("Script"))
+    {
+        @RenderSection("Script", required: false)
+    }
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

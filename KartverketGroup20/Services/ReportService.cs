@@ -41,7 +41,7 @@ namespace KartverketGroup20.Services
         }
 
         // Henter alle rader fra Report tabellen.
-        public IEnumerable<Report> GetAllReport()
+        public IEnumerable<Report> GetAllReport(string userId)
         {
             using (IDbConnection dbConnection = Connection)
             {
@@ -51,7 +51,7 @@ namespace KartverketGroup20.Services
         }
 
         // Returnerer én enkelt Report basert på dens unike Id
-        public Report GetReportById(int id)
+        public Report GetReportById(int id, string userId)
         {
             using (IDbConnection dbConnection = Connection)
             {
@@ -64,7 +64,7 @@ namespace KartverketGroup20.Services
         }
 
         //  Oppdaterer en eksisterende Report rad i databasen basert på Id
-        public void UpdateReport(int id, string description, string geoJsonData)
+        public void UpdateReport(int id, string description, string geoJsonData, string userId)
         {
             using (IDbConnection dbConnection = Connection)
             {
@@ -77,7 +77,7 @@ namespace KartverketGroup20.Services
         }
 
         // Sletter en eksisterende Report rad basert på dens Id
-        public void DeleteReport(int id)
+        public void DeleteReport(int id, string userId)
         {
             using (IDbConnection dbConnection = Connection)
             {
