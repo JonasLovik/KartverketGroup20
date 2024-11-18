@@ -46,19 +46,34 @@
 
                                 <li><a asp-controller="LandMap" class="menyer-sidebar">Til lands</a></li>
                                 <li><a asp-controller="SeaMap" class="menyer-sidebar">Til sjøs</a></li>
-                                <!----<li><a asp-controller="Account" asp-action="Login" class="menyer-sidebar">Login</a></li>-->
-                                @* @await Html.PartialAsync("_LoginPartial") *@
-                                <div>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <li><a asp-controller="Report" asp-action="Index" class="menyer-sidebar">For ansatte</a></li>
+                                }
+                                <br />
+                                <br />
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <form asp-action="Logout" asp-controller="Account" method="post" class="menyer-sidebar">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0;">Logg ut</button>
+                                        </form>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li><a asp-controller="Account" asp-action="Login" class="menyer-sidebar">Login</a></li>
+                                    <li><a asp-controller="Account" asp-action="Register" class="menyer-sidebar">Registrer</a></li>
+                                }
+                                
+
                                 </div>
                             </ul>
                         </div>
                     </label>
                 </div>
             </header>
-
-
-
-        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -75,6 +90,11 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-
         20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="~/lib/leaflet/leaflet.js"></script>
+
+    @if (IsSectionDefined("Script"))
+    {
+        @RenderSection("Script", required: false)
+    }
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
