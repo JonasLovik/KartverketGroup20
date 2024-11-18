@@ -46,37 +46,34 @@
 
                                 <li><a asp-controller="LandMap" class="menyer-sidebar">Til lands</a></li>
                                 <li><a asp-controller="SeaMap" class="menyer-sidebar">Til sjøs</a></li>
+                                @if (User.IsInRole("Administrator"))
+                                {
+                                    <li><a asp-controller="Report" asp-action="Index" class="menyer-sidebar">For ansatte</a></li>
+                                }
+                                <br />
+                                <br />
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <li class="nav-item">
-                                        <form asp-action="Logout" asp-controller="Account" method="post" class="form-inline">
+                                        <form asp-action="Logout" asp-controller="Account" method="post" class="menyer-sidebar">
                                             @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0;">Logout</button>
+                                            <button type="submit" class="btn btn-link nav-link" style="border: none; padding: 0;">Logg ut</button>
                                         </form>
                                     </li>
                                 }
                                 else
                                 {
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
-                                    </li>
+                                    <li><a asp-controller="Account" asp-action="Login" class="menyer-sidebar">Login</a></li>
+                                    <li><a asp-controller="Account" asp-action="Register" class="menyer-sidebar">Registrer</a></li>
                                 }
-                                @* <li><a asp-controller="Account" asp-action="Login" class="menyer-sidebar">Login</a></li> *@
-                                @* @await Html.PartialAsync("_LoginPartial") *@
-                                <div>
+                                
+
                                 </div>
                             </ul>
                         </div>
                     </label>
                 </div>
             </header>
-
-
-
-        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">

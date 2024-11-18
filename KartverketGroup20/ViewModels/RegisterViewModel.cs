@@ -6,7 +6,7 @@ namespace KartverketGroup20.ViewModels
     {
         [Required]
         [StringLength(50)]
-        [Display(Name = "Brukernavn")]
+        [Display(Name = "Navn")]
         public string UserName { get; set; }
 
         [Required]

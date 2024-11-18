@@ -12,7 +12,7 @@ namespace KartverketGroup20.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Passord")]
 
         public string Password { get; set; }
     }

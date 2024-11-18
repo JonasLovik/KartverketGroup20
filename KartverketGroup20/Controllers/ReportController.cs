@@ -1,5 +1,6 @@
 ﻿using KartverketGroup20.Data;
 using KartverketGroup20.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KartverketGroup20.Controllers
@@ -13,15 +14,17 @@ namespace KartverketGroup20.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             var reports = _context.Reports.ToList();
             return View(reports);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Detail(int id)
         {
-            Report report = _context.Reports.FirstOrDefault(report => report.Id == id);
+            Report report = _context.Reports.FirstOrDefault(r => r.Id == id);
             return View(report);
         }
     }
