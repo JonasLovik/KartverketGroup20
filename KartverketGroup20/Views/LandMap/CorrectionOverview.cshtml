@@ -1,32 +1,31 @@
-﻿@model List<KartverketGroup20.Models.Report>
+﻿@model IEnumerable<KartverketGroup20.Models.Report>
+@{
+    ViewData["Title"] = "Overview";
+}
+<h2>Oversikt over registrert endring</h2>
 
-    @{
-        ViewData["Title"] = "Overview";
-    }
-
-<h2>Overview of Registered Corrections</h2>
-
-@*  <table class="table">
+<table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>GeoJson</th>
-            <th>Description</th>
+            <th>Beskrivelse</th>
+            <th>Karttype</th>
+            <th>Dato rapportert</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var report in Model)
+        @foreach (var change in Model)
         {
             <tr>
-                <td>@report.Id</td>
-                <td>@report.GeoJson</td>
-                <td>@report.Description</td>
-
+                <th>@change.Id</th>
+                <th>@change.Description</th>
+                <th>@change.MapType</th>
+                <th>@change.ReportTime</th>
             </tr>
         }
     </tbody>
-</table> 
- *@
+</table>
+
 <div id="map" style="height: 400px;"></div>
 
 @section Scripts {
@@ -44,16 +43,16 @@
         }).addTo(map);
 
         // Iterate over the registered changes and add them to the map
-        // var changes = @Html.Raw(Json.Serialize(Model));
-        var reports = @Json.Serialize(Model);
+        //var reports = @Html.Raw(Json.Serialize(Model));
+        var changes = @Json.Serialize(Model);
 
-        reports.forEach(function (report) {
+        changes.forEach(function (change) {
             // Parse the GeoJSON data and add it to the map
-            var geoJsonData = JSON.parse(report.geoJson);
+            var geoJsonData = JSON.parse(change.geoJson);
             L.geoJSON(geoJsonData).addTo(map);
 
             // Optionally, bind a popup with the change description
-            var layer = L.geoJSON(geoJsonData).bindPopup(report.description);
+            var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
             layer.addTo(map);
         });
     </script>

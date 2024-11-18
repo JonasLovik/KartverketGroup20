@@ -1,31 +1,30 @@
-﻿@model List<KartverketGroup20.ViewModels.ReportViewModel>
-
+﻿@model IEnumerable<KartverketGroup20.Models.Report>
 @{
     ViewData["Title"] = "Overview";
 }
-
-@* <h2>Overview of Registered Corrections</h2>
+<h2>Oversikt over registrert endring</h2>
 
 <table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>GeoJson</th>
-            <th>Description</th>
+            <th>Beskrivelse</th>
+            <th>Karttype</th>
+            <th>Dato rapportert</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var change in Model)
         {
             <tr>
-                <td>@change.Id</td>
-                <td>@change.GeoJson</td>
-                <td>@change.Description</td>
-
+                <th>@change.Id</th>
+                <th>@change.Description</th>
+                <th>@change.MapType</th>
+                <th>@change.ReportTime</th>
             </tr>
         }
     </tbody>
-</table> *@
+</table>
 
 <div id="map" style="height: 400px;"></div>
 
@@ -38,7 +37,7 @@
         // Initialize the map and set its initial view
         var map = L.map('map').setView([51.505, -0.09], 13);  // Adjust the coordinates and zoom level as needed
 
-        // Add a tile layer (using OpenStreetMap)
+        // Definerer hvilket kart som blir brukt
         L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png', {
             attribution: 'Map data &copy; <a href="http://www.kartverket.no/">Kartverket</a>'
         }).addTo(map);

@@ -1,10 +1,12 @@
 ﻿using KartverketGroup20.Data;
 using KartverketGroup20.Models;
+using KartverketGroup20.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
+using WebApplication1.Data;
 
 namespace KartverketGroup20.Controllers
 {
@@ -19,17 +21,17 @@ namespace KartverketGroup20.Controllers
         private readonly AppDbContext _context;
 
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ReportService _reportService;
 
-        private readonly SignInManager<IdentityUser> _signInManager;
 
         public SeaMapController(ILogger<SeaMapController> logger, AppDbContext context, 
-                                UserManager<IdentityUser> userManager)
+                                UserManager<IdentityUser> userManager, ReportService reportService)
 
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
-
+            _reportService = reportService;
         }
 
         public IActionResult Index()
@@ -57,17 +59,18 @@ namespace KartverketGroup20.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 var userId = user.Id;
                 var report = new Report
-                
                 {
+                    UserId = userId,
                     GeoJson = geoJson,
                     Description = description,
-                    ReportTime = DateTime.Now
+                    ReportTime = DateTime.Now,
+                    MapType = "Sjøkart"
                 };
 
                 _context.Reports.Add(report);
                 _context.SaveChanges();
 
-                return View("CorrectionOverview");
+                return View("CorrectionOverview", new List<Report> { report });
             }
             catch (Exception ex)
             {
@@ -76,10 +79,15 @@ namespace KartverketGroup20.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult CorrectionOverview()
+        public async Task<IActionResult> CorrectionOverviewRoadMap()
         {
-            List<Report> report = _context.Reports.ToList();
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user.Id;
+
+            var report = _reportService.GetAllReport(userId);
+            //List<Report> report= _context.Reports.ToList();
             return View(report);
         }
     }

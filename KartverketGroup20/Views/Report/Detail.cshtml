@@ -1,4 +1,4 @@
-﻿@model Report
+﻿@model IEnumerable<KartverketGroup20.Models.Report>
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -6,14 +6,15 @@
 @{
 }
 
-
-<!-- Page Content -->
+@foreach (var item in Model)
+{
+    <!-- Page Content -->
 <div class="container">
 
     <!-- Portfolio Item Heading -->
     <h1 class="my-4">
         
-        <small>Rapport nr: @Model.Id</small>
+        <small>Rapport nr: @item.Id</small>
     </h1>
 
     <!-- Portfolio Item Row -->
@@ -24,11 +25,11 @@
         </div>
 
         <div class="col-md-4">
-            <h3 class="my-3">Kart: </h3>
-            <p>@Model.Description</p>
+                <h3 class="my-3">Kart: @item.MapType</h3>
+                <p>@item.Description</p>
             <h3 class="my-3">Rapporten ble sendt inn:</h3>
-            
-                <h5>@Model.ReportTime</h5>
+
+                <h5>@item.ReportTime</h5>
             
         </div>
 
@@ -36,7 +37,7 @@
     <!-- /.row -->
 </div>
 <!-- /.container -->
-
+}
 
 @section Scripts {
 

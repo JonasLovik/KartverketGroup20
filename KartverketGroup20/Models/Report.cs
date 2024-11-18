@@ -13,12 +13,12 @@ namespace KartverketGroup20.Models
         public string UserId { get; set; }
 
         [Required]
-        public string? GeoJson { get; set; }
+        public string GeoJson { get; set; }
 
         [Required]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
-        //public string? MapType { get; set; }
+        public string? MapType { get; set; }
         //public string? Status { get; set; }
 
         [DataType(DataType.Time)]

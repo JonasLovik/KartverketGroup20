@@ -50,6 +50,10 @@
                                 {
                                     <li><a asp-controller="Report" asp-action="Index" class="menyer-sidebar">For ansatte</a></li>
                                 }
+                                else
+                                {
+                                    <li><a asp-controller="Home" asp-action="UpdateOverview" class="menyer-sidebar">Mine rapporter</a></li>
+                                }
                                 <br />
                                 <br />
                                 @if (User.Identity.IsAuthenticated)

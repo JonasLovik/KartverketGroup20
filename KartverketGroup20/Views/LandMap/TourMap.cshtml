@@ -1,8 +1,11 @@
-﻿﻿@{
+﻿
+@model KartverketGroup20.ViewModels.ReportViewModel
+﻿
+@{
     ViewData["Title"] = "Register Change";
 }
 
-<h2>Register Change</h2>
+<h2>Registrer feil i kart</h2>
 
 <!-- Map container with defined height -->
 <div id="map" style="height: 400px;"></div>
@@ -12,11 +15,11 @@
 
     <input type="hidden" id="geoJsonInput" name="geoJson" />
     <div>
-        <label for="description">Change Description:</label>
+        <label for="description">Beskrivelse</label>
         <textarea id="description" name="Description" class="form-control"></textarea>
     </div>
     <br />
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Send inn</button>
 </form>
 
 @section Scripts {

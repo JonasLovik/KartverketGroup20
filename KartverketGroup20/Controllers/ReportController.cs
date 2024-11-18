@@ -25,7 +25,7 @@ namespace KartverketGroup20.Controllers
         public IActionResult Detail(int id)
         {
             Report report = _context.Reports.FirstOrDefault(r => r.Id == id);
-            return View(report);
+            return View("Detail", new List<Report> { report });
         }
     }
 
