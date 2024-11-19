@@ -1,20 +1,13 @@
-﻿@model IEnumerable<KartverketGroup20.Models.Report>
+﻿@model KartverketGroup20.Models.Report
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 
-@foreach (var item in Model)
-{
     <!-- Page Content -->
 <div class="container">
 
     <!-- Portfolio Item Heading -->
     <h1 class="my-4">
         
-        <small>Rapport nr: @item.Id</small>
+        <small>Rapport nr: @Model.Id</small>
     </h1>
 
     <!-- Portfolio Item Row -->
@@ -25,11 +18,10 @@
         </div>
 
         <div class="col-md-4">
-                <h3 class="my-3">Kart: @item.MapType</h3>
-                <p>@item.Description</p>
-            <h3 class="my-3">Rapporten ble sendt inn:</h3>
-
-                <h5>@item.ReportTime</h5>
+            <h3 class="my-3">Kart: @Model.MapType</h3>
+            <p>@Model.Description</p>
+            <h5 class="my-3">Rapporten ble sendt inn:</h5>
+            <p>@Model.ReportTime</p>
             
         </div>
 
@@ -37,7 +29,7 @@
     <!-- /.row -->
 </div>
 <!-- /.container -->
-}
+
 
 @section Scripts {
 
@@ -54,17 +46,19 @@
         }).addTo(map);
 
         // Iterate over the registered changes and add them to the map
-         var changes = @Html.Raw(Json.Serialize(Model));
+         //var changes = @Html.Raw(Json.Serialize(Model));
         //var changes = @Json.Serialize(Model);
-
-        changes.forEach(function (change) {
+        var geoJsonData = JSON.parse(@Html.Raw(Json.Serialize(Model.GeoJson)));
+        var layer = L.geoJSON(geoJsonData).addTo(map);
+        
             // Parse the GeoJSON data and add it to the map
-            var geoJsonData = JSON.parse(change.geoJson);
-            L.geoJSON(geoJsonData).addTo(map);
+            //var geoJsonData = JSON.parse(change.geoJson);
+            //L.geoJSON(geoJsonData).addTo(map);
 
             // Optionally, bind a popup with the change description
             var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
             layer.addTo(map);
-        });
+
+        map.fitBounds(layer.getBounds());
     </script>
 }

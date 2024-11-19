@@ -24,9 +24,19 @@ namespace KartverketGroup20.Controllers
         [Authorize(Roles = "Administrator")]
         public IActionResult Detail(int id)
         {
+            // Hent rapporten basert på ID
             Report report = _context.Reports.FirstOrDefault(r => r.Id == id);
-            return View("Detail", new List<Report> { report });
+
+            // Hvis rapporten ikke finnes, vis en feilmelding eller 404-side
+            if (report == null)
+            {
+                return NotFound("Rapporten ble ikke funnet.");
+            }
+
+            // Send rapporten som modellen til visningen
+            return View("Detail", report);
         }
+
     }
 
 }
