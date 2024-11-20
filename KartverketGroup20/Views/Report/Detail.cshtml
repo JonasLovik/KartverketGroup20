@@ -1,4 +1,5 @@
-﻿@model KartverketGroup20.Models.Report
+﻿@using KartverketGroup20.Data.Enum
+@model KartverketGroup20.Models.Report
 
 
     <!-- Page Content -->
@@ -24,6 +25,39 @@
             <p>@Model.ReportTime</p>
             
         </div>
+        <form asp-controller="Report" asp-action="EditDetail" method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!-- Hidden input -->
+            <input type="hidden" asp-for="Id" />
+
+            <input type="hidden" asp-for="UserId" />
+
+            <input type="hidden" asp-for="GeoJson" />
+
+            <input type="hidden" asp-for="Description" />
+
+
+            <div class="form-group">
+                <label asp-for="Feedback"></label>
+                <input asp-for="Feedback" class="form-control" />
+                <span asp-validation-for="Feedback" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col">
+                    <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Status>()" class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <br />
+
+            <button type="submit" class="btn btn-primary">Lagre endringer</button>
+        </form>
 
     </div>
     <!-- /.row -->
@@ -45,8 +79,7 @@
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
         }).addTo(map);
 
-        // Iterate over the registered changes and add them to the map
-         //var changes = @Html.Raw(Json.Serialize(Model));
+        //var changes = @Html.Raw(Json.Serialize(Model));
         //var changes = @Json.Serialize(Model);
         var geoJsonData = JSON.parse(@Html.Raw(Json.Serialize(Model.GeoJson)));
         var layer = L.geoJSON(geoJsonData).addTo(map);

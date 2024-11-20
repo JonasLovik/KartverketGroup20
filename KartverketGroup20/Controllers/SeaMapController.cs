@@ -64,7 +64,9 @@ namespace KartverketGroup20.Controllers
                     GeoJson = geoJson,
                     Description = description,
                     ReportTime = DateTime.Now,
-                    MapType = "Sjøkart"
+                    MapType = "Sjøkart",
+                    Status = Data.Enum.Status.IkkeBehandlet,
+                    Feedback = null
                 };
 
                 _context.Reports.Add(report);

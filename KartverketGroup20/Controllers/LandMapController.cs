@@ -68,7 +68,9 @@ namespace KartverketGroup20.Controllers
                     GeoJson = geoJson,
                     Description = description,
                     ReportTime = DateTime.Now,
-                    MapType = "Veikart"
+                    MapType = "Veikart",
+                    Status = Data.Enum.Status.IkkeBehandlet,
+                    Feedback = null
                 };
 
                 _context.Reports.Add(report);
@@ -122,7 +124,9 @@ namespace KartverketGroup20.Controllers
                     GeoJson = geoJson,
                     Description = description,
                     ReportTime = DateTime.Now,
-                    MapType = "Turkart"
+                    MapType = "Turkart",
+                    Status = Data.Enum.Status.IkkeBehandlet,
+                    Feedback = null
                 };
 
                 _context.Reports.Add(report);

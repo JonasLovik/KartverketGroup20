@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using KartverketGroup20.Data.Enum;
 
 namespace KartverketGroup20.Models
 {
@@ -19,10 +20,13 @@ namespace KartverketGroup20.Models
         public string Description { get; set; }
 
         public string? MapType { get; set; }
-        //public string? Status { get; set; }
+
+        public Status Status { get; set; }
 
         [DataType(DataType.Time)]
         public DateTime? ReportTime { get; set; }
+
+        public string? Feedback {  get; set; }
         
 
     }

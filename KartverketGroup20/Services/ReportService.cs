@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using KartverketGroup20.Models;
+using KartverketGroup20.Data.Enum;
 
 namespace WebApplication1.Data
 {
@@ -44,6 +45,16 @@ namespace WebApplication1.Data
                              WHERE Id = @Id AND UserId = @UserId";
             Console.WriteLine(query);
             _dbConnection.Execute(query, new { Id = id, Description = description, GeoJson = geoJsonData, UserId = userId });
+        }
+
+        //Updates report as an admin
+        public void UpdateReportAdmin(int id, string userId, string feedback, Status status)
+        {
+            string query = @"UPDATE Reports
+                            SET Status = @Status, Feedback = @Feedback
+                            WHERE Id = @Id";
+            Console.WriteLine(query);
+            _dbConnection.Execute(query, new { Id = id, UserId = userId, Status = status, Feedback = feedback });
         }
 
         // Deletes an existing GeoChange record based on its Id and UserId
