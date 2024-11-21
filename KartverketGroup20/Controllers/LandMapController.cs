@@ -12,10 +12,6 @@ namespace KartverketGroup20.Controllers
 {
     public class LandMapController : Controller
     {
-        //private static List<ReportViewModel> positions = new List<ReportViewModel>();
-
-        //private static List<ReportViewModel> changes = new List<ReportViewModel>();
-
         private static List<Report> report = new List<Report>();
 
         private readonly ILogger<LandMapController> _logger;
@@ -24,8 +20,6 @@ namespace KartverketGroup20.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ReportService _reportService;
-
-
 
 
         public LandMapController(ILogger<LandMapController> logger, AppDbContext context, 
@@ -93,7 +87,6 @@ namespace KartverketGroup20.Controllers
             var userId = user.Id;
 
             var report = _reportService.GetAllReport(userId);
-            //List<Report> report= _context.Reports.ToList();
             return View(report);
         }
 
@@ -149,7 +142,6 @@ namespace KartverketGroup20.Controllers
             var userId = user.Id;
 
             var report = _reportService.GetAllReport(userId);
-            //List<Report> report= _context.Reports.ToList();
             return View(report);
         }
     }

@@ -42,7 +42,7 @@ namespace KartverketGroup20.Controllers
                 return NotFound("Rapporten ble ikke funnet.");
             }
 
-            // Send rapporten som modellen til visningen
+            // Send rapporten til view
             return View("Detail", report);
         }
 

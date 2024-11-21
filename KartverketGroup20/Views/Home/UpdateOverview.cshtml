@@ -20,16 +20,16 @@
     <tbody>
         @if (Model != null && Model.Any())
         {
-            foreach (var change in Model)
+            foreach (var item in Model)
             {
                 <tr>
-                    <td>@change.Description</td>
-                    <td>@change.ReportTime</td>
-                    <td>@change.Status</td>
-                    <td>@change.Feedback</td>
+                    <td>@item.Description</td>
+                    <td>@item.ReportTime</td>
+                    <td>@Html.DisplayFor(m => item.Status)</td>
+                    <td>@item.Feedback</td>
                     <td>
-                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@change.Id">Edit</a> |
-                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@change.Id">Delete</a>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

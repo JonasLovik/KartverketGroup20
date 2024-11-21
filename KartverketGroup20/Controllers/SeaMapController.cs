@@ -12,8 +12,6 @@ namespace KartverketGroup20.Controllers
 {
     public class SeaMapController : Controller
     {
-        //private static List<ReportViewModel> positions = new List<ReportViewModel>();
-
         private static List<Report> report = new List<Report>();
 
         private readonly ILogger _logger;
@@ -89,7 +87,6 @@ namespace KartverketGroup20.Controllers
             var userId = user.Id;
 
             var report = _reportService.GetAllReport(userId);
-            //List<Report> report= _context.Reports.ToList();
             return View(report);
         }
     }

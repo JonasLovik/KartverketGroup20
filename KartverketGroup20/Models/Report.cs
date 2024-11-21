@@ -26,6 +26,7 @@ namespace KartverketGroup20.Models
         [DataType(DataType.Time)]
         public DateTime? ReportTime { get; set; }
 
+        [Display(Name = "Tilbakemelding")]
         public string? Feedback {  get; set; }
         
 
