@@ -1,90 +1,67 @@
 ﻿using Dapper;
-using KartverketGroup20.Models;
-using MySqlConnector;
-using System;
+using System.Collections.Generic;
 using System.Data;
+using KartverketGroup20.Models;
+using KartverketGroup20.Data.Enum;
 
-namespace KartverketGroup20.Services
+namespace WebApplication1.Data
 {
-    // Tjenesten lar deg utføre CRUD-operasjoner (Create, Read, Update, Delete) på Report tabell
     public class ReportService
     {
-        // Definerer en variabel av type IConfigration som brukes til å hente "connection string" fra "appsettings.json"
-        private readonly IConfiguration _configuration;
+        private readonly IDbConnection _dbConnection;
 
-        // Definerer en variabel som beholder "connection string" som hentes fra "appsettings.json" under nøkkelen "DefaultConnection"
-        private readonly string? _connectionString;
-
-        public ReportService(IConfiguration configuration)
+        public ReportService(IDbConnection dbConnection)
         {
-            _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _dbConnection = dbConnection;
         }
 
-        // Get MariaDB Connection
-        // Definerer en property som returnerer en ny instans av en "database connection" (MySqlConnection) ved å bruke "connection string".
-        private IDbConnection Connection => new MySqlConnection(_connectionString);
-
-        // Setter inn en ny rad i Report tabell
-        public void AddReport(string description, string geoJson)
+        // Inserts a new record into the GeoChanges table
+        public void AddReport(string description, string geoJson, string userId)
         {
-            // Denne konstruksjonen brukes for å sikre at ressursen, i dette tilfellet "dbConnection":
-            // blir korrekt håndtert OG frigjort etter bruk. 
-            using (IDbConnection dbConnection = Connection)
-            {
-                // Dapper bruker parameteriserte verdier for å unngå SQL-injeksjon.
-                // Verdiene @Description og @GeoJson blir fylt med parameterne fra metoden.
-                string query = @"INSERT INTO Report (Description, GeoJson) 
-                             VALUES (@Description, @GeoJson)";
-                dbConnection.Execute(query, new { Description = description, GeoJson = geoJson });
-            }
+            string query = @"INSERT INTO Reports (Description, GeoJson, UserId) 
+                             VALUES (@Description, @GeoJson, @UserId)";
+            _dbConnection.Execute(query, new { Description = description, GeoJson = geoJson, UserId = userId });
         }
 
-        // Henter alle rader fra Report tabellen.
+        // Retrieves all records from the GeoChanges table for a specific user
         public IEnumerable<Report> GetAllReport(string userId)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                string query = @"SELECT * FROM Report";
-                return dbConnection.Query<Report>(query);
-            }
+            string query = @"SELECT * FROM Reports WHERE UserId = @UserId";
+            return _dbConnection.Query<Report>(query, new { UserId = userId });
         }
 
-        // Returnerer én enkelt Report basert på dens unike Id
+        // Retrieves a single GeoChange by its unique Id for a specific user
         public Report GetReportById(int id, string userId)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                string query = "SELECT * FROM Report WHERE Id = @Id";
-
-                // QuerySingleOrDefault returnerer én rad, eller null hvis ingen match finnes.
-                // Dette er nyttig for operasjoner som oppdatering eller sletting, hvor man typisk vil hente en spesifikk rad.
-                return dbConnection.QuerySingleOrDefault<Report>(query, new { Id = id });
-            }
+            string query = "SELECT * FROM Reports WHERE Id = @Id AND UserId = @UserId";
+            return _dbConnection.QuerySingleOrDefault<Report>(query, new { Id = id, UserId = userId });
         }
 
-        //  Oppdaterer en eksisterende Report rad i databasen basert på Id
+        // Updates an existing GeoChange record in the database based on Id and UserId
         public void UpdateReport(int id, string description, string geoJsonData, string userId)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                // Oppdaterer verdiene i Description og GeoJson kolonnene for raden som har den spesifikke Id.
-                string query = @"UPDATE Report 
+            string query = @"UPDATE Reports 
                              SET Description = @Description, GeoJson = @GeoJson 
-                             WHERE Id = @Id";
-                dbConnection.Execute(query, new { Id = id, Description = description, GeoJson = geoJsonData });
-            }
+                             WHERE Id = @Id AND UserId = @UserId";
+            Console.WriteLine(query);
+            _dbConnection.Execute(query, new { Id = id, Description = description, GeoJson = geoJsonData, UserId = userId });
         }
 
-        // Sletter en eksisterende Report rad basert på dens Id
+        //Updates report as an admin
+        public void UpdateReportAdmin(int id, string userId, string feedback, Status status)
+        {
+            string query = @"UPDATE Reports
+                            SET Status = @Status, Feedback = @Feedback
+                            WHERE Id = @Id";
+            Console.WriteLine(query);
+            _dbConnection.Execute(query, new { Id = id, UserId = userId, Status = status, Feedback = feedback });
+        }
+
+        // Deletes an existing GeoChange record based on its Id and UserId
         public void DeleteReport(int id, string userId)
         {
-            using (IDbConnection dbConnection = Connection)
-            {
-                // Fjerner raden med gitt Id fra Report tabellen
-                string query = "DELETE FROM Report WHERE Id = @Id";
-                dbConnection.Execute(query, new { Id = id });
-            }
+            string query = "DELETE FROM Reports WHERE Id = @Id AND UserId = @UserId";
+            _dbConnection.Execute(query, new { Id = id, UserId = userId });
         }
     }
 }

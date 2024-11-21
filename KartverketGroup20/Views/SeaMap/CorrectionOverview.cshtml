@@ -1,15 +1,16 @@
-﻿@model List<KartverketGroup20.ViewModels.ReportViewModel>
+﻿@model IEnumerable<KartverketGroup20.Models.Report>
 @{
     ViewData["Title"] = "Overview";
 }
-<h2>Oversikt over registrerte endringer</h2>
+<h2>Oversikt over registrert endring</h2>
 
-@* <table class="table">
+<table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>GeoJSON</th>
-            <th>Description</th>
+            <th>Beskrivelse</th>
+            <th>Karttype</th>
+            <th>Dato rapportert</th>
         </tr>
     </thead>
     <tbody>
@@ -17,12 +18,13 @@
         {
             <tr>
                 <th>@change.Id</th>
-                <th>@change.GeoJson</th>
                 <th>@change.Description</th>
+                <th>@change.MapType</th>
+                <th>@change.ReportTime</th>
             </tr>
         }
     </tbody>
-</table> *@
+</table>
 
 
 <!-- Map container with defined height -->

@@ -1,0 +1,44 @@
+﻿
+@model IEnumerable<KartverketGroup20.Models.Report>
+
+@{
+    ViewData["Title"] = "Dine Rapporter";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Beskrivelse</th>
+            <th>Dato sendt inn</th>
+            <th>Status</th>
+            <th>Tilbakemelding</th>
+            <th>Handlinger</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Description</td>
+                    <td>@item.ReportTime</td>
+                    <td>@Html.DisplayFor(m => item.Status)</td>
+                    <td>@item.Feedback</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">Ingen data tilgjengelig.</td>
+            </tr>
+        }
+    </tbody>
+</table>

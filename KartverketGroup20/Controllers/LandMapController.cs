@@ -6,15 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Data;
 
 namespace KartverketGroup20.Controllers
 {
     public class LandMapController : Controller
     {
-        //private static List<ReportViewModel> positions = new List<ReportViewModel>();
-
-        //private static List<ReportViewModel> changes = new List<ReportViewModel>();
-
         private static List<Report> report = new List<Report>();
 
         private readonly ILogger<LandMapController> _logger;
@@ -23,8 +20,6 @@ namespace KartverketGroup20.Controllers
 
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ReportService _reportService;
-
-
 
 
         public LandMapController(ILogger<LandMapController> logger, AppDbContext context, 
@@ -66,13 +61,16 @@ namespace KartverketGroup20.Controllers
                     UserId = userId,
                     GeoJson = geoJson,
                     Description = description,
-                    ReportTime = DateTime.Now
+                    ReportTime = DateTime.Now,
+                    MapType = "Veikart",
+                    Status = Data.Enum.Status.IkkeBehandlet,
+                    Feedback = null
                 };
 
                 _context.Reports.Add(report);
                 _context.SaveChanges();
 
-                return View("CorrectionOverview");
+                return View("CorrectionOverview", new List<Report> { report });
             }
             catch (Exception ex)
             {
@@ -89,105 +87,10 @@ namespace KartverketGroup20.Controllers
             var userId = user.Id;
 
             var report = _reportService.GetAllReport(userId);
-            //List<Report> report= _context.Reports.ToList();
             return View(report);
         }
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> UpdateOverview()
-        {
-            try
-            {
-                var user = await _userManager.GetUserAsync(User);
-                var userId = user.Id;
 
-                var allReports = _reportService.GetAllReport(userId);
-                return View(allReports);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving Reports in UpdateOverview.");
-                return View("Error");
-            }
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
-        {
-            _logger.LogInformation($"Edit GET action called with id={id}");
-
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user.Id;
-
-            var report = _reportService.GetReportById(id, userId);
-            if (report == null)
-            {
-                _logger.LogWarning($"Report with id={id} not found for userId={userId}");
-                return NotFound();
-            }
-
-            return View(report);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> Edit(Report model)
-        {
-            ModelState.Remove("UserId");
-
-            var user = await _userManager.GetUserAsync(User);
-
-            model.UserId = user.Id;
-
-            if (ModelState.IsValid)
-            {
-                _logger.LogInformation("ModelState is valid. Updating Report.");
-
-                _reportService.UpdateReport(model.Id, model.Description, model.GeoJson, user.Id);
-                return RedirectToAction("UpdateOverview");
-            }
-            else
-            {
-                _logger.LogWarning("ModelState is invalid.");
-                foreach (var modelState in ModelState.Values)
-                {
-                    foreach (var error  in modelState.Errors)
-                    {
-                        _logger.LogWarning(error.ErrorMessage);
-                    }
-                }
-            }
-            return View(model);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user.Id;
-
-            var report = _reportService.GetReportById(id, userId);
-            if (report == null)
-            {
-                return NotFound();
-            }
-            return View(report);
-        }
-
-        [Authorize]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var userId = user.Id;
-
-            _reportService.DeleteReport(id, userId);
-            return RedirectToAction("UpdateOverview");
-        }
 
         [HttpGet]
         public IActionResult TourMap()
@@ -210,15 +113,19 @@ namespace KartverketGroup20.Controllers
                 var userId = user.Id;
                 var report = new Report
                 {
+                    UserId = userId,
                     GeoJson = geoJson,
                     Description = description,
-                    ReportTime = DateTime.Now
+                    ReportTime = DateTime.Now,
+                    MapType = "Turkart",
+                    Status = Data.Enum.Status.IkkeBehandlet,
+                    Feedback = null
                 };
 
                 _context.Reports.Add(report);
                 _context.SaveChanges();
 
-                return View("CorrectionOverviewTourMap");
+                return View("CorrectionOverview", new List<Report> { report });
             }
             catch (Exception ex)
             {
@@ -227,10 +134,14 @@ namespace KartverketGroup20.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult CorrectionOverviewTourMap()
+        public async Task<IActionResult> CorrectionOverviewTourMap()
         {
-            List<Report> report = _context.Reports.ToList();
+            var user = await _userManager.GetUserAsync(User);
+            var userId = user.Id;
+
+            var report = _reportService.GetAllReport(userId);
             return View(report);
         }
     }

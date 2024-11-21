@@ -1,0 +1,20 @@
+﻿@model KartverketGroup20.Models.Report
+
+<h2>Slett Rapport</h2>
+
+<p>Er du sikker på at du vil slette denne rapporten</p>
+
+<div>
+    <strong>Beskrivelse:</strong> @Model.Description
+</div>
+<div>
+    <strong>Dato sendt inn:</strong> @Model.ReportTime
+</div>
+<br />
+<br />
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Slett</button>
+    <a asp-action="UpdateOverview" class="btn btn-secondary">Avbryt</a>
+</form>

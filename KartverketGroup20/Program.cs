@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using System.Data;
+using WebApplication1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

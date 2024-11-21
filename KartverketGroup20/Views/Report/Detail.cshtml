@@ -1,13 +1,8 @@
-﻿@model Report
-
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using KartverketGroup20.Data.Enum
+@model KartverketGroup20.Models.Report
 
 
-<!-- Page Content -->
+    <!-- Page Content -->
 <div class="container">
 
     <!-- Portfolio Item Heading -->
@@ -24,13 +19,45 @@
         </div>
 
         <div class="col-md-4">
-            <h3 class="my-3">Kart: </h3>
+            <h3 class="my-3">Kart: @Model.MapType</h3>
             <p>@Model.Description</p>
-            <h3 class="my-3">Rapporten ble sendt inn:</h3>
-            
-                <h5>@Model.ReportTime</h5>
+            <h5 class="my-3">Rapporten ble sendt inn:</h5>
+            <p>@Model.ReportTime</p>
             
         </div>
+        <form asp-controller="Report" asp-action="EditDetail" method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <!-- Hidden input -->
+            <input type="hidden" asp-for="Id" />
+
+            <input type="hidden" asp-for="UserId" />
+
+            <input type="hidden" asp-for="GeoJson" />
+
+            <input type="hidden" asp-for="Description" />
+
+
+            <div class="form-group">
+                <label asp-for="Feedback"></label>
+                <input asp-for="Feedback" class="form-control" />
+                <span asp-validation-for="Feedback" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col">
+                    <select asp-for="Status" asp-items="@Html.GetEnumSelectList<Status>()" class="form-control">
+                        <option>--Select--</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <br />
+
+            <button type="submit" class="btn btn-primary">Lagre endringer</button>
+        </form>
 
     </div>
     <!-- /.row -->
@@ -52,18 +79,19 @@
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors'
         }).addTo(map);
 
-        // Iterate over the registered changes and add them to the map
-         var changes = @Html.Raw(Json.Serialize(Model));
+        //var changes = @Html.Raw(Json.Serialize(Model));
         //var changes = @Json.Serialize(Model);
-
-        changes.forEach(function (change) {
+        var geoJsonData = JSON.parse(@Html.Raw(Json.Serialize(Model.GeoJson)));
+        var layer = L.geoJSON(geoJsonData).addTo(map);
+        
             // Parse the GeoJSON data and add it to the map
-            var geoJsonData = JSON.parse(change.geoJson);
-            L.geoJSON(geoJsonData).addTo(map);
+            //var geoJsonData = JSON.parse(change.geoJson);
+            //L.geoJSON(geoJsonData).addTo(map);
 
             // Optionally, bind a popup with the change description
             var layer = L.geoJSON(geoJsonData).bindPopup(change.description);
             layer.addTo(map);
-        });
+
+        map.fitBounds(layer.getBounds());
     </script>
 }

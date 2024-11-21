@@ -52,7 +52,7 @@ namespace KartverketGroup20.Controllers
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
-            if (!string.IsNullOrEmpty(searchTerm))
+            if (string.IsNullOrEmpty(searchTerm))
             {
                 ViewData["Error"] = "Vennligst fyll inn ett stedsnavn.";
                 return View("Index");
