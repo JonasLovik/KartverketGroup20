@@ -45,6 +45,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RoadMap(string geoJson, string description)
         {
             try
@@ -100,6 +101,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> TourMap(string geoJson, string description)
         {
             try

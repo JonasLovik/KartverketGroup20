@@ -89,6 +89,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Report model)
         {
             ModelState.Remove("UserId");

@@ -45,6 +45,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SeaMap(string geoJson, string description)
         {
             try
