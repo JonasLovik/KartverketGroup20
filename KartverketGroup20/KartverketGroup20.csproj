@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="KartverketGroup20.Tests\**" />
+    <Content Remove="KartverketGroup20.Tests\**" />
+    <EmbeddedResource Remove="KartverketGroup20.Tests\**" />
+    <None Remove="KartverketGroup20.Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="FakeItEasy" Version="8.3.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.2" />
