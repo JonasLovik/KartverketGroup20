@@ -1,4 +1,5 @@
 # KartverketGroup20
+
 Her er gruppe 20 sin prototype til Kartverket. Denne README- filen vil fungere som en guide til å bruke web applikasjonen og en dokumentasjon for hvordan man kan sette opp, forstå og jobbe med koden i repositorien.
 
 ## Samarbeidspartnere
@@ -92,3 +93,5 @@ Komponenter
 Lisensen brukt for prosjektet er Apache-2.0 license
 <br><br>
 Les mer om lisenset her: https://choosealicense.com/licenses/apache-2.0/
+
+
