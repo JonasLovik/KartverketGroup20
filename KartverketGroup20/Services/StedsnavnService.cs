@@ -17,6 +17,8 @@ namespace KartverketGroup20.Services
             _apiSettings = apiSettings.Value;
 
         }
+
+        // Henter stedsnavn basert på søkeord
         public async Task<StedsnavnResponse> GetStedsnavnAsync(string search)
         {
             try

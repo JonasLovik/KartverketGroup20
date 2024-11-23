@@ -15,7 +15,7 @@ namespace WebApplication1.Data
             _dbConnection = dbConnection;
         }
 
-        // Inserts a new record into the GeoChanges table
+        // Lagrer ny rapport i databasen
         public void AddReport(string description, string geoJson, string userId)
         {
             string query = @"INSERT INTO Reports (Description, GeoJson, UserId) 
@@ -23,21 +23,21 @@ namespace WebApplication1.Data
             _dbConnection.Execute(query, new { Description = description, GeoJson = geoJson, UserId = userId });
         }
 
-        // Retrieves all records from the GeoChanges table for a specific user
+        // Returnerer alle rapporter basert på userId
         public IEnumerable<Report> GetAllReport(string userId)
         {
             string query = @"SELECT * FROM Reports WHERE UserId = @UserId";
             return _dbConnection.Query<Report>(query, new { UserId = userId });
         }
 
-        // Retrieves a single GeoChange by its unique Id for a specific user
+        // Returnerer en spesifikk rapport basert på Id og userId
         public Report GetReportById(int id, string userId)
         {
             string query = "SELECT * FROM Reports WHERE Id = @Id AND UserId = @UserId";
             return _dbConnection.QuerySingleOrDefault<Report>(query, new { Id = id, UserId = userId });
         }
 
-        // Updates an existing GeoChange record in the database based on Id and UserId
+        // Oppdaterer en eksisterende rapport basert på Id og userId for en vanlig bruker
         public void UpdateReport(int id, string description, string geoJsonData, string userId)
         {
             string query = @"UPDATE Reports 
@@ -47,7 +47,7 @@ namespace WebApplication1.Data
             _dbConnection.Execute(query, new { Id = id, Description = description, GeoJson = geoJsonData, UserId = userId });
         }
 
-        //Updates report as an admin
+        // Oppdaterer en eksisterende rapport basert på Id og userId for en administrator
         public void UpdateReportAdmin(int id, string userId, string feedback, Status status)
         {
             string query = @"UPDATE Reports
@@ -57,7 +57,7 @@ namespace WebApplication1.Data
             _dbConnection.Execute(query, new { Id = id, UserId = userId, Status = status, Feedback = feedback });
         }
 
-        // Deletes an existing GeoChange record based on its Id and UserId
+        // Sletter en eksisterende rapport basert på Id og userId
         public void DeleteReport(int id, string userId)
         {
             string query = "DELETE FROM Reports WHERE Id = @Id AND UserId = @UserId";

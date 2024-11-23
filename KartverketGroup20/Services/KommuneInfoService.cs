@@ -17,6 +17,7 @@ namespace KartverketGroup20.Services
             _apiSettings = apiSettings.Value;
         }
 
+        // Henter informasjon om en kommune basert på kommuneNr
         public async Task<KommuneInfo> GetKommuneInfoAsync(string kommuneNr)
         {
             try
