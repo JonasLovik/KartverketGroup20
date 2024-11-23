@@ -89,6 +89,9 @@ Komponenter
 - **Dapper:** Gir enkel og effektiv databaseintegrasjon med MySQL/MariaDB og en fleksibel tilnærming til spørringer
 
 
+### NB: til Rania og Espen
+Gruppen hadde problemer med git og docker, vi måtte bytte repo og hentet kode fra tidligere repo. Dette er grunnen at ikke hele gruppen vises som collaborators og få commits. 
+
 ## Lisens
 Lisensen brukt for prosjektet er Apache-2.0 license
 <br><br>
