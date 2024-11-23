@@ -48,8 +48,10 @@ namespace KartverketGroup20.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        
         [Authorize]
         [HttpGet]
+        // GET: Henter rapporter fra db og viser alle rapportene for innlogget bruker basert på userId
         public async Task<IActionResult> UpdateOverview()
         {
             try
@@ -70,6 +72,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpGet]
+        // GET: Henter en rapport fra db basert på ReportId og userId for visning
         public async Task<IActionResult> Edit(int id)
         {
             _logger.LogInformation($"Edit GET action called with id={id}");
@@ -90,6 +93,7 @@ namespace KartverketGroup20.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // POST: Oppdaterer en rapport i db basert på ReportId og userId
         public async Task<IActionResult> Edit(Report model)
         {
             ModelState.Remove("UserId");
@@ -121,6 +125,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpGet]
+        // GET: Henter en rapport fra db basert på ReportId og userId for sletting
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -137,6 +142,7 @@ namespace KartverketGroup20.Controllers
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        // POST: Sletter en rapport fra db basert på ReportId og userId
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var user = await _userManager.GetUserAsync(User);

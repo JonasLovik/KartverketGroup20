@@ -22,8 +22,9 @@ namespace KartverketGroup20.Controllers
             _logger = logger;
             _reportService = reportService;
         }
-
+        // Sjekker om brukeren er administrator
         [Authorize(Roles = "Administrator")]
+        // Henter alle rapporter fra databasen og viser dem i en liste
         public IActionResult Index()
         {
             var reports = _context.Reports.ToList();
@@ -31,6 +32,7 @@ namespace KartverketGroup20.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
+        // Henter en spesifikk rapport basert på ID og viser detaljer om rapporten
         public IActionResult Detail(int id)
         {
             // Hent rapporten basert på ID
@@ -47,6 +49,7 @@ namespace KartverketGroup20.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
+        // Endrer en spesifikk rapport og lagrer endringene i databasen om modelen er gyldig
         public async Task<IActionResult> EditDetail(Report model)
         {
             ModelState.Remove("UserId");

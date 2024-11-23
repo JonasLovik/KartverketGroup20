@@ -24,6 +24,7 @@ namespace KartverketGroup20.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // POST: Henter informasjon om en kommune basert på kommuneNr
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
             if (string.IsNullOrEmpty(kommuneNr))
@@ -52,6 +53,7 @@ namespace KartverketGroup20.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // POST: Henter stedsnavn basert på søkeord
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
             if (string.IsNullOrEmpty(searchTerm))

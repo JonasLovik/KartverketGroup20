@@ -46,6 +46,7 @@ namespace KartverketGroup20.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // POST: Lagrer en rapport i db basert på geoJson og beskrivelse for veikart
         public async Task<IActionResult> RoadMap(string geoJson, string description)
         {
             try
@@ -59,6 +60,7 @@ namespace KartverketGroup20.Controllers
                 var userId = user.Id;
                 var report = new Report
                 {
+                    // Det objektene blir lagret som i databasen
                     UserId = userId,
                     GeoJson = geoJson,
                     Description = description,
@@ -82,6 +84,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpGet]
+        // GET: Henter rapporten som nettopp ble lagret i db for visning
         public async Task<IActionResult> CorrectionOverviewRoadMap()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -102,6 +105,7 @@ namespace KartverketGroup20.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        // POST: Lagrer en rapport i db basert på geoJson og beskrivelse for turkart
         public async Task<IActionResult> TourMap(string geoJson, string description)
         {
             try
@@ -115,6 +119,7 @@ namespace KartverketGroup20.Controllers
                 var userId = user.Id;
                 var report = new Report
                 {
+                    // Det objektene blir lagret som i databasen
                     UserId = userId,
                     GeoJson = geoJson,
                     Description = description,
@@ -138,6 +143,7 @@ namespace KartverketGroup20.Controllers
 
         [Authorize]
         [HttpGet]
+        // GET: Henter rapporten som nettopp ble lagret i db for visning
         public async Task<IActionResult> CorrectionOverviewTourMap()
         {
             var user = await _userManager.GetUserAsync(User);

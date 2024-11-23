@@ -10,11 +10,10 @@ using WebApplication1.Data;
 
 namespace KartverketGroup20.Controllers
 {
+    // Metoder er likt som i LandMapController
     public class SeaMapController : Controller
     {
         private static List<Report> report = new List<Report>();
-
-        private readonly ILogger _logger;
 
         private readonly AppDbContext _context;
 
@@ -22,11 +21,10 @@ namespace KartverketGroup20.Controllers
         private readonly ReportService _reportService;
 
 
-        public SeaMapController(ILogger<SeaMapController> logger, AppDbContext context, 
+        public SeaMapController(AppDbContext context, 
                                 UserManager<IdentityUser> userManager, ReportService reportService)
 
         {
-            _logger = logger;
             _context = context;
             _userManager = userManager;
             _reportService = reportService;
