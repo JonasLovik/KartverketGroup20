@@ -1,6 +1,9 @@
 ﻿using KartverketGroup20.ViewModels;
 using KartverketGroup20.Services;
 using Microsoft.AspNetCore.Mvc;
+using NUnit.Framework;
+using KartverketGroup20.APIModels;
+
 
 namespace KartverketGroup20.Controllers
 {

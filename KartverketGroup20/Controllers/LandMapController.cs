@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using WebApplication1.Data;
 
 namespace KartverketGroup20.Controllers
@@ -20,10 +21,10 @@ namespace KartverketGroup20.Controllers
         private readonly ReportService _reportService;
 
 
-        public LandMapController(AppDbContext context, 
+        public LandMapController(AppDbContext context,
                                   UserManager<IdentityUser> userManager,
                                   ReportService reportService)
-                                
+
         {
             //_logger = logger;
             _context = context;
@@ -145,5 +146,3 @@ namespace KartverketGroup20.Controllers
         }
     }
 }
-
-
