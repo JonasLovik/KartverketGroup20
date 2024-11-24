@@ -61,72 +61,73 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
-    var logger = services.GetRequiredService<ILogger<Program>>();
+    //var context = services.GetRequiredService<AppDbContext>();
+    //var logger = services.GetRequiredService<ILogger<Program>>();
 
-    int retryCount = 0;
-    int maxRetryAttempts = 10;
-    TimeSpan pauseBetweenFailures = TimeSpan.FromSeconds(5);
+    //int retryCount = 0;
+    //int maxRetryAttempts = 10;
+    //TimeSpan pauseBetweenFailures = TimeSpan.FromSeconds(5);
 
-    while (retryCount < maxRetryAttempts)
-    {
-        try
-        {
-            context.Database.Migrate();
-            break; // Success!
-        }
-        catch (MySqlException ex)
-        {
-            retryCount++;
-            logger.LogError(ex, "An error occurred while migrating the database. Attempt {RetryCount}/{MaxRetryAttempts}", retryCount, maxRetryAttempts);
-            if (retryCount >= maxRetryAttempts)
-            {
-                throw;
-            }
-            System.Threading.Thread.Sleep(pauseBetweenFailures);
-        }
-    }
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    //while (retryCount < maxRetryAttempts)
+    //{
+    //    try
+    //    {
+    //        context.Database.Migrate();
+    //        break; // Success!
+    //    }
+    //    catch (MySqlException ex)
+    //    {
+    //        retryCount++;
+    //        logger.LogError(ex, "An error occurred while migrating the database. Attempt {RetryCount}/{MaxRetryAttempts}", retryCount, maxRetryAttempts);
+    //        if (retryCount >= maxRetryAttempts)
+    //        {
+    //            throw;
+    //        }
+    //        System.Threading.Thread.Sleep(pauseBetweenFailures);
+    //    }
+    //}
+    //    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    //    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
 
-    string[] roles = { "Administrator", "User" };
+    //    string[] roles = { "Administrator", "User" };
 
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
+    //    foreach (var role in roles)
+    //    {
+    //        if (!await roleManager.RoleExistsAsync(role))
+    //        {
+    //            await roleManager.CreateAsync(new IdentityRole(role));
+    //        }
+    //    }
 
-    var adminEmail = "admin@kartverket.com";
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    if (adminUser == null)
-    {
-        adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail };
-        await userManager.CreateAsync(adminUser, "Admin@123");
-        await userManager.AddToRoleAsync(adminUser, "Administrator");
-    }
-}
+    //    var adminEmail = "admin@kartverket.com";
+    //    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    //    if (adminUser == null)
+    //    {
+    //        adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail };
+    //        await userManager.CreateAsync(adminUser, "Admin@123");
+    //        await userManager.AddToRoleAsync(adminUser, "Administrator");
+    //    }
+    //}
 
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    {
+        app.UseExceptionHandler("/Home/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();
