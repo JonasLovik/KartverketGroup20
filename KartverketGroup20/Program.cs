@@ -73,9 +73,9 @@ using (var scope = app.Services.CreateScope())
         try
         {
             context.Database.Migrate();
-            break;
+            break; // Success!
         }
-catch (MySqlException ex)
+        catch (MySqlException ex)
         {
             retryCount++;
             logger.LogError(ex, "An error occurred while migrating the database. Attempt {RetryCount}/{MaxRetryAttempts}", retryCount, maxRetryAttempts);
