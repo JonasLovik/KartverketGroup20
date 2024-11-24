@@ -9,13 +9,6 @@ using WebApplication1.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Bind the API settings from appsettings.json
-builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
-
-//Register services and their interfaces
-builder.Services.AddHttpClient<IKommuneInfoService, KommuneInfoService>();
-builder.Services.AddHttpClient<IStedsnavnService, StedsnavnService>();
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -24,13 +17,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
 new MySqlServerVersion(new Version(10, 5, 9))));
 
+
 // Add Identity services
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     //Password settings
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
-    options.Password.RequireUppercase = false;  
+    options.Password.RequireUppercase = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 6;
     options.User.RequireUniqueEmail = true;
@@ -44,6 +38,13 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied/";
 });
 
+//Bind the API settings from appsettings.json
+builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
+
+//Register services and their interfaces
+builder.Services.AddHttpClient<IKommuneInfoService, KommuneInfoService>();
+builder.Services.AddHttpClient<IStedsnavnService, StedsnavnService>();
+
 builder.Services.AddTransient<IDbConnection>((sp) =>
 {
     var configuration = sp.GetRequiredService<IConfiguration>();
@@ -53,11 +54,38 @@ builder.Services.AddTransient<IDbConnection>((sp) =>
 
 builder.Services.AddScoped<ReportService>();
 
+
 var app = builder.Build();
+
 
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    int retryCount = 0;
+    int maxRetryAttempts = 10;
+    TimeSpan pauseBetweenFailures = TimeSpan.FromSeconds(5);
+
+    while (retryCount < maxRetryAttempts)
+    {
+        try
+        {
+            context.Database.Migrate();
+            break;
+        }
+catch (MySqlException ex)
+        {
+            retryCount++;
+            logger.LogError(ex, "An error occurred while migrating the database. Attempt {RetryCount}/{MaxRetryAttempts}", retryCount, maxRetryAttempts);
+            if (retryCount >= maxRetryAttempts)
+            {
+                throw;
+            }
+            System.Threading.Thread.Sleep(pauseBetweenFailures);
+        }
+    }
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
 
