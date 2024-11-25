@@ -61,6 +61,9 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
+    // Dette er kommentert ut slik at man kan kjøre programmet uten å ha kofigurert database
+
     //var context = services.GetRequiredService<AppDbContext>();
     //var logger = services.GetRequiredService<ILogger<Program>>();
 
