@@ -64,9 +64,10 @@ Sørg for at databasetilkobling og andre instillinger er konfigurert slik at det
 
 ## Struktur
 Dette prosjektet følger en moderne lagdelt MVC struktur. Dette er på grunn av at den kombinerer MVC med tjenester og API-støtte. 
+
 ![image](https://github.com/user-attachments/assets/0d09ef4b-c1fb-47e5-b4e3-12e98ab1b29e)
 
-Komponenter
+## Komponenter
 | **Komponent**         | **Beskrivelse**                                                                                     |
 |------------------------|-----------------------------------------------------------------------------------------------------|
 | **KartverketGroup20** | Hovedprosjektet som inneholder applikasjonen.                                                      |
@@ -80,7 +81,7 @@ Komponenter
 | **Views**            | Inneholder styling og det som faktisk blir vist på nettsiden  |
 
 ## Teknologi
-- **ASP.NET Core MVC:** Brukt på grunn av sin balanse mellom fleksibilitet, ytelse og skalerbarhet, og innebygd støtte for Model-View-Controller(MVC)-arkitektur
+- **ASP.NET Core MVC:** Brukt på grunn av sin balanse mellom fleksibilitet, ytelse og skalerbarhet, og innebygd støtte for Model-View-Controller(MVC)-arkitektur der controller (C) styrer url logikken og henter objekter fra modellen (M) og sender det videre til ett view (V) som vises på skjemen
 - **C#:** Programmerings språk brukt for backend logikk
 -  **MySQL/MariaDB:** Brukt som databasesystem på grunn av skalerbarhet og støtte
 - **Kartverket API:** For å finne informasjon om ulike kommuner og steder i Norge 
