@@ -89,31 +89,31 @@ using (var scope = app.Services.CreateScope())
     //        System.Threading.Thread.Sleep(pauseBetweenFailures);
     //    }
     //}
-    //    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    //    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+    //var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    //var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
 
-    //    string[] roles = { "Administrator", "User" };
+    //string[] roles = { "Administrator", "User" };
 
-    //    foreach (var role in roles)
+    //foreach (var role in roles)
+    //{
+    //    if (!await roleManager.RoleExistsAsync(role))
     //    {
-    //        if (!await roleManager.RoleExistsAsync(role))
-    //        {
-    //            await roleManager.CreateAsync(new IdentityRole(role));
-    //        }
-    //    }
-
-    //    var adminEmail = "admin@kartverket.com";
-    //    var adminUser = await userManager.FindByEmailAsync(adminEmail);
-    //    if (adminUser == null)
-    //    {
-    //        adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail };
-    //        await userManager.CreateAsync(adminUser, "Admin@123");
-    //        await userManager.AddToRoleAsync(adminUser, "Administrator");
+    //        await roleManager.CreateAsync(new IdentityRole(role));
     //    }
     //}
 
-    // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment())
+    //var adminEmail = "admin@kartverket.com";
+    //var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    //if (adminUser == null)
+    //{
+    //    adminUser = new IdentityUser { UserName = adminEmail, Email = adminEmail };
+    //    await userManager.CreateAsync(adminUser, "Admin@123");
+    //    await userManager.AddToRoleAsync(adminUser, "Administrator");
+    //}
+}
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
     {
         app.UseExceptionHandler("/Home/Error");
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -133,4 +133,4 @@ using (var scope = app.Services.CreateScope())
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
     app.Run();
-}
+

@@ -4,17 +4,10 @@
 
 <h2>@TempData["RegistrationSuccess"]</h2>
 
-<p>Du vil bli redirigert til log in siden om <span id="countdown">7</span> sekunder...</p>
+<p>Du vil bli redirigert til logg inn siden om 3 sekunder...</p>
 
 <script>
-    var seconds = 7;
-    var countdown Element = document.getElementById(`countdown`);
-
-    setInterval(function () {
-        seconds ==;
-        countdownElement.textContent = seconds;
-        if (seconds <= 0) {
-            window.location.href = `@Url.Action("Login", "Account")`;
-        }
-    }, 1000);
+    setTimeout(function () {
+        window.location.href = '@Url.Action("Login", "Account")';
+    }, 3000); // Wait for 3 seconds (3000 milliseconds)
 </script>
