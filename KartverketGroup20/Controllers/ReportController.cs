@@ -10,16 +10,16 @@ namespace KartverketGroup20.Controllers
     public class ReportController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<HomeController> _logger;
+
         private readonly AppDbContext _context;
         private readonly ReportService _reportService;
 
-        public ReportController(AppDbContext context, UserManager<IdentityUser> userManager, ILogger<HomeController> logger,
+        public ReportController(AppDbContext context, UserManager<IdentityUser> userManager,
             ReportService reportService)
         {
             _context = context;
             _userManager = userManager;
-            _logger = logger;
+
             _reportService = reportService;
         }
         // Sjekker om brukeren er administrator
@@ -59,19 +59,19 @@ namespace KartverketGroup20.Controllers
 
             if (ModelState.IsValid)
             {
-                _logger.LogInformation("ModelState is valid. Updating Report.");
+
 
                 _reportService.UpdateReportAdmin(model.Id, user.Id, model.Feedback, model.Status);
                 return RedirectToAction("Index");
             }
             else
             {
-                _logger.LogWarning("ModelState is invalid.");
+
                 foreach (var modelState in ModelState.Values)
                 {
                     foreach (var error in modelState.Errors)
                     {
-                        _logger.LogWarning(error.ErrorMessage);
+                        return View(error);
                     }
                 }
             }

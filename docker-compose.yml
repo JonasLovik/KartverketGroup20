@@ -26,18 +26,21 @@ services:
       - backend
 
   kartverketgroup20:
-    image: ${DOCKER_REGISTRY-}kartverketgroup20
+    #image: ${DOCKER_REGISTRY-}kartverketgroup20
     build:
       context: .
       dockerfile: KartverketGroup20/Dockerfile
+    image: kartverketgroup20
     ports:
       - "5000:80"
     depends_on:
       - mariadb
     environment:
-      ConnectionStrings__DefaultConnection: "Server=mariadb;Database=kartverketdb;User=root;Password=12345678;"
+        ASPNETCORE_ENVIROMENT: Development
+        ConnectionStrings__DefaultConnection: "Server=mariadb;Database=kartverketdb;User=root;Password=12345678;"
     networks:
       - backend
+    command: bash -c "for i in \$(seq 1 30); do dotnet ef database update && break || (echo 'Waiting for DB...'; sleep 5); done; dotnet KartverketGroup20.dll"
 
 volumes:
   mariadb_data:
